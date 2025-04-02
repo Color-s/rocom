@@ -17,6 +17,7 @@
             --success-color: #23d46d;
             --danger-color: #d94113;
             --warning-color: #1e88e5;
+            --info-color: #00bcd4; /* 新增信息颜色 */
             --card-bg: #ffffff;
             --card-border: #e0e0e0;
             --button-bg: #e3f2fd;
@@ -38,6 +39,7 @@
             --night-success-color: #81c784;
             --night-danger-color: #e57373;
             --night-warning-color: #42a5f5;
+            --night-info-color: #4dd0e1; /* 新增夜晚模式信息颜色 */
         }
 
         body {
@@ -281,6 +283,25 @@
             color: var(--night-warning-color);
         }
 
+        /* 新增被抵抗样式 */
+        .result-category.bei-di-kang h3 {
+            color: var(--info-color);
+        }
+
+        .result-category.bei-di-kang h3::before {
+            content: '🫠'; /* 或者其他你喜欢的图标 */
+            color: var(--info-color);
+            animation: pulse 1.5s infinite;
+        }
+
+        .night-mode .result-category.bei-di-kang h3 {
+            color: var(--night-info-color);
+        }
+
+        .night-mode .result-category.bei-di-kang h3::before {
+            color: var(--night-info-color);
+        }
+
         .type-list {
             display: flex;
             flex-wrap: wrap;
@@ -338,6 +359,11 @@
             color: white;
         }
 
+        .type-tag.info {
+            background-color: var(--info-color);
+            color: white;
+        }
+
         .type-tag.none {
             background-color: var(--secondary-color);
             color: white;
@@ -361,6 +387,10 @@
 
         .night-mode .type-tag.warning {
             background-color: var(--night-warning-color);
+        }
+
+        .night-mode .type-tag.info {
+            background-color: var(--night-info-color);
         }
 
         .night-mode .type-tag.none {
@@ -417,6 +447,21 @@
             }
 
             to {
+                transform: scale(1);
+            }
+        }
+
+        /* 新增被抵抗动画 */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(0.9);
+            }
+
+            100% {
                 transform: scale(1);
             }
         }
@@ -499,10 +544,15 @@
                 margin: 1rem auto 1.5rem auto;
             }
 
+            #results #result-details {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr); /* 修改为两列 */
+                gap: 1.5rem; /* 调整间距 */
+            }
+
             .result-category {
                 padding: 1.5rem;
                 margin-bottom: 0;
-                width: calc(33.33% - 1.5rem);
             }
 
             .result-category h3 {
@@ -525,18 +575,6 @@
                 right: 2rem;
                 padding: 0.6rem 1.2rem;
                 font-size: 1rem;
-            }
-
-            #results #result-details {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: stretch;
-                /* 修改这里，让子元素高度拉伸 */
-            }
-
-            #results #result-details>div:not(:last-child) {
-                margin-right: 1.5rem;
             }
         }
 
@@ -599,6 +637,16 @@
                 padding: 0.4rem 0.8rem;
                 font-size: 0.8rem;
             }
+
+            #results #result-details {
+                flex-direction: column; /* 小屏幕下垂直排列结果 */
+            }
+
+            #results #result-details > div {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
         }
     </style>
 </head>
@@ -625,40 +673,134 @@
                     <ul class="type-list" id="bei-ke-zhi-list"></ul>
                 </div>
                 <div class="result-category di-kang">
-                    <h3>抵抗 <br>(效果不太好...)</h3>
+                    <h3>抵抗 <br>(固若金汤)</h3>
                     <ul class="type-list" id="di-kang-list"></ul>
+                </div>
+                <div class="result-category bei-di-kang">
+                    <h3>被抵抗 <br>(对方好硬)</h3>
+                    <ul class="type-list" id="beidi-kang-list"></ul>
                 </div>
             </div>
         </div>
     </div>
 
     <footer>
-        数据来源：网络搜集 | 工具生成：AI | 当前日期：<span id="current-date"></span> <br>
+        数据来源：用户提供的图片 | 工具生成：AI | 当前日期：<span id="current-date"></span> <br>
         <span style="font-size: 0.8em; opacity: 0.8;">注意：数据基于图片信息，可能存在与特定游戏版本或规则不符或矛盾之处。</span>
     </footer>
 
     <script>
         // --- 数据区 ---
         const typeData = {
-            "普": { kezhi: [], beiKeZhi: ["武"], diKang: ["机械", "地", "幽"] },
-            "草": { kezhi: ["水", "地"], beiKeZhi: ["火", "翼", "毒", "虫"], diKang: ["水", "草", "电"] },
-            "水": { kezhi: ["火", "地", "机械"], beiKeZhi: ["草", "电"], diKang: ["冰"] },
-            "火": { kezhi: ["草", "冰", "虫", "机械"], beiKeZhi: ["水", "地", "龙"], diKang: ["火", "草", "虫", "机械", "萌"] },
-            "电": { kezhi: ["翼", "水"], beiKeZhi: ["草", "地", "龙"], diKang: ["电"] },
-            "翼": { kezhi: ["草", "虫", "武"], beiKeZhi: ["电", "冰", "机械", "龙"], diKang: ["电", "地", "机械", "龙"] },
-            "冰": { kezhi: ["草", "地", "龙", "翼"], beiKeZhi: ["火", "地", "武", "机械"], diKang: ["冰"] },
-            "机械": { kezhi: ["冰", "萌", "翼"], beiKeZhi: ["火", "水", "电", "武"], diKang: ["普", "草", "水", "电", "翼", "冰", "龙", "虫", "机械", "幻", "毒"] },
-            "地": { kezhi: ["火", "电", "毒", "机械"], beiKeZhi: ["草", "冰", "水"], diKang: ["毒"] },
-            "恶": { kezhi: ["幽", "萌"], beiKeZhi: ["武", "恶", "光"], diKang: ["幽", "恶"] },
-            "龙": { kezhi: ["龙"], beiKeZhi: ["机械"], diKang: ["火", "水", "电", "龙"] },
-            "幽": { kezhi: ["幽", "恶"], beiKeZhi: ["普", "恶"], diKang: ["普", "武", "毒", "虫"] },
-            "武": { kezhi: ["普", "冰", "机械", "恶"], beiKeZhi: ["翼", "虫", "毒", "幽", "萌", "幻"], diKang: ["翼", "虫", "毒", "幽"] },
-            "光": { kezhi: ["恶", "幽"], beiKeZhi: ["草"], diKang: ["恶", "幽"] },
-            "毒": { kezhi: ["草", "萌"], beiKeZhi: ["机械", "地"], diKang: ["草", "萌", "虫", "武", "毒"] },
-            "萌": { kezhi: ["武", "恶", "龙"], beiKeZhi: ["火", "机械", "毒"], diKang: ["武", "恶", "虫"] },
-            "虫": { kezhi: ["草", "幻"], beiKeZhi: ["火", "翼", "毒", "机械", "萌", "武", "幽"], diKang: ["草", "武", "地"] },
-            "幻": { kezhi: ["武", "毒"], beiKeZhi: ["机械", "光"], diKang: ["武", "幻"] }
-        };
+            "普": {
+                "kezhi": [],
+                "beiKeZhi": ["武"],
+                "diKang": ["幽"],
+                "beidiKang": ["幽", "机械", "地"]
+            },
+            "草": {
+                "kezhi": ["水", "地"],
+                "beiKeZhi": ["火", "冰", "毒", "虫", "翼"],
+                "diKang": ["水", "地", "电", "光"],
+                "beidiKang": ["火", "龙", "毒", "虫", "翼", "机械"]
+            },
+            "火": {
+                "kezhi": ["草", "冰", "虫", "机械"],
+                "beiKeZhi": ["水", "地"],
+                "diKang": ["草", "冰", "虫", "机械", "萌"],
+                "beidiKang": ["水", "地", "龙"]
+            },
+            "水": {
+                "kezhi": ["火", "地", "机械"],
+                "beiKeZhi": ["草", "电"],
+                "diKang": ["火", "机械"],
+                "beidiKang": ["草", "冰", "龙"]
+            },
+            "光": {
+                "kezhi": ["恶", "幽"],
+                "beiKeZhi": ["幽"],
+                "diKang": ["恶", "幻"],
+                "beidiKang": ["草"]
+            },
+            "地": {
+                "kezhi": ["火", "冰", "电", "毒"],
+                "beiKeZhi": ["草", "水", "冰", "武", "机械"],
+                "diKang": ["普", "火", "毒"],
+                "beidiKang": ["草", "水", "翼"]
+            },
+            "冰": {
+                "kezhi": ["草", "地", "龙", "翼"],
+                "beiKeZhi": ["火", "武", "地", "机械"],
+                "diKang": ["水", "冰"],
+                "beidiKang": ["火", "武", "机械"]
+            },
+            "龙": {
+                "kezhi": ["龙"],
+                "beiKeZhi": ["冰", "龙", "萌"],
+                "diKang": ["草", "火", "水", "电"],
+                "beidiKang": ["机械"]
+            },
+            "电": {
+                "kezhi": ["水", "翼"],
+                "beiKeZhi": ["地"],
+                "diKang": ["电", "翼", "机械"],
+                "beidiKang": ["草", "地", "龙", "电"]
+            },
+            "毒": {
+                "kezhi": ["草", "萌"],
+                "beiKeZhi": ["地", "恶", "幻", "幽", "机械"],
+                "diKang": ["草", "毒", "虫", "武", "萌"],
+                "beidiKang": ["地", "毒", "翼", "幽", "机械"]
+            },
+            "虫": {
+                "kezhi": ["草", "恶", "幻"],
+                "beiKeZhi": ["火", "翼"],
+                "diKang": ["草", "武"],
+                "beidiKang": ["火", "毒", "翼", "幽", "机械", "萌"]
+            },
+            "武": {
+                "kezhi": ["普", "地", "冰", "恶", "机械"],
+                "beiKeZhi": ["翼", "萌", "幻", "幽"],
+                "diKang": ["地", "虫", "恶"],
+                "beidiKang": ["翼", "萌", "幻", "幽"]
+            },
+            "翼": {
+                "kezhi": ["草", "虫", "武"],
+                "beiKeZhi": ["冰", "电"],
+                "diKang": ["草", "虫", "武"],
+                "beidiKang": ["龙", "电", "机械", "地"]
+            },
+            "萌": {
+                "kezhi": ["龙", "武", "恶"],
+                "beiKeZhi": ["毒", "机械"],
+                "diKang": ["武", "虫"],
+                "beidiKang": ["火", "毒", "机械"]
+            },
+            "幽": {
+                "kezhi": ["光", "幽", "幻"],
+                "beiKeZhi": ["光", "恶"],
+                "diKang": ["普", "毒", "虫", "武"],
+                "beidiKang": ["恶"]
+            },
+            "恶": {
+                "kezhi": ["毒", "萌", "幽"],
+                "beiKeZhi": ["光", "武", "恶"],
+                "diKang": ["幽", "恶"],
+                "beidiKang": ["光", "武", "虫", "萌"]
+            },
+            "机械": {
+                "kezhi": ["地", "冰", "萌"],
+                "beiKeZhi": ["武", "水", "火"],
+                "diKang": ["普", "草", "冰", "龙", "毒", "虫", "翼", "机械", "幻"],
+                "beidiKang": ["武", "水", "火"]
+            },
+            "幻": {
+                "kezhi": ["毒", "武"],
+                "beiKeZhi": ["幽", "虫"],
+                "diKang": ["武", "幻"],
+                "beidiKang": ["光", "机械"]
+            }
+        }
 
         // --- 程序逻辑 ---
         const typeSelector = document.getElementById('type-selector');
@@ -688,6 +830,7 @@
         const keZhiList = document.getElementById('ke-zhi-list');
         const beiKeZhiList = document.getElementById('bei-ke-zhi-list');
         const diKangList = document.getElementById('di-kang-list');
+        const beidiKangList = document.getElementById('beidi-kang-list'); // 获取新的被抵抗列表
         const currentDateSpan = document.getElementById('current-date');
         const nightModeToggle = document.getElementById('night-mode-toggle');
         const body = document.body;
@@ -731,10 +874,12 @@
             keZhiList.innerHTML = '';
             beiKeZhiList.innerHTML = '';
             diKangList.innerHTML = '';
+            beidiKangList.innerHTML = ''; // 清空被抵抗列表
 
             populateList(keZhiList, data.kezhi, 'success');
             populateList(beiKeZhiList, data.beiKeZhi, 'danger');
             populateList(diKangList, data.diKang, 'warning');
+            populateList(beidiKangList, data.beidiKang, 'info'); // 填充被抵抗列表，使用 'info' class
         }
 
         function populateList(listElement, types, tagClass) {

@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>属性克制抵抗查询器 - Q弹版</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --text-color: #333;
+            --primary-color: #2979ff;
+            --secondary-color: #757575;
+            --success-color: #23d46d;
+            --danger-color: #d94113;
+            --warning-color: #1e88e5;
+            --card-bg: #ffffff;
+            --card-border: #e0e0e0;
+            --button-bg: #e3f2fd;
+            --button-hover-bg: #bbdefb;
+            --button-active-bg: #90caf9;
+            --font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --border-radius: 0.8rem;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --box-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
+            --night-bg-color: #121212;
+            --night-text-color: #eee;
+            --night-card-bg: #1e1e1e;
+            --night-card-border: #333;
+            --night-button-bg: #2c2c2c;
+            --night-button-hover-bg: #444;
+            --night-button-active-bg: #555;
+            --night-primary-color: #64b5f6;
+            --night-secondary-color: #9e9e9e;
+            --night-success-color: #81c784;
+            --night-danger-color: #e57373;
+            --night-warning-color: #42a5f5;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 1rem;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.night-mode {
+            background-color: var(--night-bg-color);
+            color: var(--night-text-color);
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 1rem;
+            transition: box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .container:hover {
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .night-mode .container {
+            background-color: var(--night-card-bg);
+            border-color: var(--night-card-border);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            font-size: 1.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .night-mode h1 {
+            color: var(--night-primary-color);
+        }
+
+        #type-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed var(--card-border);
+            transition: border-color 0.3s ease;
+        }
+
+        .night-mode #type-selector {
+            border-color: var(--night-card-border);
+        }
+
+        .type-button {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .night-mode .type-button {
+            background-color: #333;
+            border-color: #555;
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.05);
+        }
+
+        .type-button:hover {
+            background-color: #e0e0e0;
+            border-color: #b3b3b3;
+            transform: scale(1.05);
+        }
+
+        .night-mode .type-button:hover {
+            background-color: #444;
+            border-color: #777;
+        }
+
+        .type-button:active {
+            transform: scale(0.95);
+        }
+
+        .type-button img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: 40px;
+            max-height: 40px;
+            transition: filter 0.2s ease-in-out;
+        }
+
+        .type-button.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 3px 6px rgba(41, 121, 255, 0.3);
+        }
+
+        .night-mode .type-button.active {
+            background-color: var(--night-primary-color);
+            border-color: var(--night-primary-color);
+            box-shadow: 0 3px 6px rgba(100, 181, 246, 0.3);
+        }
+
+        #results {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        #selected-type-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 1rem auto 2rem auto;
+            color: var(--primary-color);
+            display: inline-block;
+            padding: 0.6rem 2rem;
+            background-color: #f0f0f0;
+            border-radius: 50px;
+            box-shadow: 0 2px 5px rgba(41, 121, 255, 0.1);
+            transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .night-mode #selected-type-display {
+            color: var(--night-primary-color);
+            background-color: var(--night-button-bg);
+            box-shadow: 0 2px 5px rgba(100, 181, 246, 0.2);
+        }
+
+        .result-category {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            color: #f0f0f0;
+        }
+
+        .night-mode .result-category {
+            background-color: var(--night-card-bg);
+            box-shadow: 0 2px 6px rgba(255, 255, 255, 0.06);
+        }
+
+        .result-category h3 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #555;
+            color: #8bc34a;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .night-mode .result-category h3 {
+            color: var(--night-text-color);
+        }
+
+        .result-category h3::before {
+            content: '';
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .result-category.ke-zhi h3 {
+            color: var(--success-color);
+        }
+
+        .result-category.ke-zhi h3::before {
+            content: '😏';
+            color: var(--success-color);
+            animation: bounce 1s infinite alternate;
+        }
+
+        .night-mode .result-category.ke-zhi h3 {
+            color: var(--night-success-color);
+        }
+
+        .night-mode .result-category.ke-zhi h3::before {
+            color: var(--night-success-color);
+        }
+
+        .result-category.bei-ke-zhi h3 {
+            color: var(--danger-color);
+        }
+
+        .result-category.bei-ke-zhi h3::before {
+            content: '🥶';
+            color: var(--danger-color);
+            animation: shiver 0.3s infinite;
+        }
+
+        .night-mode .result-category.bei-ke-zhi h3 {
+            color: var(--night-danger-color);
+        }
+
+        .night-mode .result-category.bei-ke-zhi h3::before {
+            color: var(--night-danger-color);
+        }
+
+        .result-category.di-kang h3 {
+            color: var(--warning-color);
+        }
+
+        .result-category.di-kang h3::before {
+            content: '🛡️';
+            color: var(--warning-color);
+            animation: shrink 1.5s infinite;
+        }
+
+        .night-mode .result-category.di-kang h3 {
+            color: var(--night-warning-color);
+        }
+
+        .night-mode .result-category.di-kang h3::before {
+            color: var(--night-warning-color);
+        }
+
+        .type-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            padding-left: 0;
+            list-style: none;
+            justify-content: flex-start;
+        }
+
+        .type-tag {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            /* 初始隐藏 */
+            transform: scale(0.5);
+            /* 初始缩小 */
+            animation: popIn 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+            /* 添加过渡效果 */
+        }
+
+        .type-tag::before {
+            content: '';
+        }
+
+        .type-tag span {
+            display: inline-block;
+        }
+
+        .type-tag img.type-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .type-tag.success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .type-tag.danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .type-tag.warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .type-tag.none {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .type-tag.none::before {
+            content: '-';
+        }
+
+        .night-mode .type-tag {
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+        }
+
+        .night-mode .type-tag.success {
+            background-color: var(--night-success-color);
+        }
+
+        .night-mode .type-tag.danger {
+            background-color: var(--night-danger-color);
+        }
+
+        .night-mode .type-tag.warning {
+            background-color: var(--night-warning-color);
+        }
+
+        .night-mode .type-tag.none {
+            background-color: var(--night-secondary-color);
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes shiver {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-2px);
+            }
+
+            50% {
+                transform: translateX(2px);
+            }
+
+            75% {
+                transform: translateX(-2px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes shrink {
+            from {
+                transform: scale(1.2);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            transition: color 0.3s ease;
+        }
+
+        .night-mode footer {
+            color: var(--night-secondary-color);
+        }
+
+        #night-mode-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--button-bg);
+            color: var(--primary-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            z-index: 10;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .night-mode #night-mode-toggle {
+            background-color: var(--night-button-bg);
+            color: var(--night-primary-color);
+            box-shadow: 0 2px 4px rgba(100, 181, 246, 0.2);
+        }
+
+        #night-mode-toggle:hover {
+            background-color: var(--button-hover-bg);
+        }
+
+        .night-mode #night-mode-toggle:hover {
+            background-color: var(--night-button-hover-bg);
+        }
+
+        /* 屏幕适配 */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 960px;
+                padding: 2rem;
+                margin-top: 2rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            #type-selector {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 0.75rem;
+                padding-bottom: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .type-button {
+                padding: 0.75rem;
+            }
+
+            .type-button img {
+                max-width: 50px;
+                max-height: 50px;
+            }
+
+            #selected-type-display {
+                font-size: 1.8rem;
+                padding: 0.8rem 3rem;
+                margin-bottom: 2.5rem;
+                text-align: center;
+                margin: 1rem auto 1.5rem auto;
+            }
+
+            .result-category {
+                padding: 1.5rem;
+                margin-bottom: 0;
+                width: calc(33.33% - 1.5rem);
+            }
+
+            .result-category h3 {
+                font-size: 1.4rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .type-tag {
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+            }
+
+            footer {
+                margin-top: 3rem;
+                font-size: 1rem;
+            }
+
+            #night-mode-toggle {
+                top: 2rem;
+                right: 2rem;
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+            }
+
+            #results #result-details {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: stretch;
+                /* 修改这里，让子元素高度拉伸 */
+            }
+
+            #results #result-details>div:not(:last-child) {
+                margin-right: 1.5rem;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+
+            #type-selector {
+                grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+                margin-top: 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+            }
+
+            #type-selector {
+                gap: 0.5rem;
+            }
+
+            .type-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            #selected-type-display {
+                font-size: 1.5rem;
+                padding: 0.4rem 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .result-category h3 {
+                font-size: 1.2rem;
+            }
+
+            .type-tag {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            footer {
+                font-size: 0.85rem;
+            }
+
+            #night-mode-toggle {
+                top: 0.5rem;
+                right: 0.5rem;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="night-mode-toggle">🌙</button>
+
+    <div class="container">
+        <h1>属性克制抵抗查询</h1>
+
+        <div id="type-selector">
+        </div>
+
+        <div id="results">
+            <div id="selected-type-display">选择属性查看详情</div>
+            <div id="result-details">
+                <div class="result-category ke-zhi">
+                    <h3>克制 <br>(攻击超有效!)</h3>
+                    <ul class="type-list" id="ke-zhi-list"></ul>
+                </div>
+                <div class="result-category bei-ke-zhi">
+                    <h3>被克制 <br>(受到双倍伤害!)</h3>
+                    <ul class="type-list" id="bei-ke-zhi-list"></ul>
+                </div>
+                <div class="result-category di-kang">
+                    <h3>抵抗 <br>(效果不太好...)</h3>
+                    <ul class="type-list" id="di-kang-list"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        数据来源：用户提供的图片 | 工具生成：AI | 当前日期：<span id="current-date"></span> <br>
+        <span style="font-size: 0.8em; opacity: 0.8;">注意：数据基于图片信息，可能存在与特定游戏版本或规则不符或矛盾之处。</span>
+    </footer>
+
+    <script>
+        // --- 数据区 ---
+        const typeData = {
+            "普": { kezhi: [], beiKeZhi: ["武"], diKang: ["机械", "地", "幽"] },
+            "草": { kezhi: ["水", "地"], beiKeZhi: ["火", "翼", "毒", "虫"], diKang: ["水", "草", "电"] },
+            "水": { kezhi: ["火", "地", "机械"], beiKeZhi: ["草", "电"], diKang: ["冰"] },
+            "火": { kezhi: ["草", "冰", "虫", "机械"], beiKeZhi: ["水", "地", "龙"], diKang: ["火", "草", "虫", "机械", "萌"] },
+            "电": { kezhi: ["翼", "水"], beiKeZhi: ["草", "地", "龙"], diKang: ["电"] },
+            "翼": { kezhi: ["草", "虫", "武"], beiKeZhi: ["电", "冰", "机械", "龙"], diKang: ["电", "地", "机械", "龙"] },
+            "冰": { kezhi: ["草", "地", "龙", "翼"], beiKeZhi: ["火", "地", "武", "机械"], diKang: ["冰"] },
+            "机械": { kezhi: ["冰", "萌", "翼"], beiKeZhi: ["火", "水", "电", "武"], diKang: ["普", "草", "水", "电", "翼", "冰", "龙", "虫", "机械", "幻", "毒"] },
+            "地": { kezhi: ["火", "电", "毒", "机械"], beiKeZhi: ["草", "冰", "水"], diKang: ["毒"] },
+            "恶": { kezhi: ["幽", "萌"], beiKeZhi: ["武", "恶", "光"], diKang: ["幽", "恶"] },
+            "龙": { kezhi: ["龙"], beiKeZhi: ["机械"], diKang: ["火", "水", "电", "龙"] },
+            "幽": { kezhi: ["幽", "恶"], beiKeZhi: ["普", "恶"], diKang: ["普", "武", "毒", "虫"] },
+            "武": { kezhi: ["普", "冰", "机械", "恶"], beiKeZhi: ["翼", "虫", "毒", "幽", "萌", "幻"], diKang: ["翼", "虫", "毒", "幽"] },
+            "光": { kezhi: ["恶", "幽"], beiKeZhi: ["草"], diKang: ["恶", "幽"] },
+            "毒": { kezhi: ["草", "萌"], beiKeZhi: ["机械", "地"], diKang: ["草", "萌", "虫", "武", "毒"] },
+            "萌": { kezhi: ["武", "恶", "龙"], beiKeZhi: ["火", "机械", "毒"], diKang: ["武", "恶", "虫"] },
+            "虫": { kezhi: ["草", "幻"], beiKeZhi: ["火", "翼", "毒", "机械", "萌", "武", "幽"], diKang: ["草", "武", "地"] },
+            "幻": { kezhi: ["武", "毒"], beiKeZhi: ["机械", "光"], diKang: ["武", "幻"] }
+        };
+
+        // --- 程序逻辑 ---
+        const typeSelector = document.getElementById('type-selector');
+        const typeIcons = { // 映射属性到对应的图标文件名
+            // 请确保你的图标文件（例如：普.svg, 草.svg 等）与这个对象中的key对应，并且路径是正确的。
+            "普": "img/普.svg",
+            "草": "img/草.svg",
+            "水": "img/水.svg",
+            "火": "img/火.svg",
+            "电": "img/电.svg",
+            "翼": "img/翼.svg",
+            "冰": "img/冰.svg",
+            "机械": "img/机械.svg",
+            "地": "img/地.svg",
+            "恶": "img/恶.svg",
+            "龙": "img/龙.svg",
+            "幽": "img/幽.svg",
+            "武": "img/武.svg",
+            "光": "img/光.svg",
+            "毒": "img/毒.svg",
+            "萌": "img/萌.svg",
+            "虫": "img/虫.svg",
+            "幻": "img/幻.svg"
+        };
+        const resultsContainer = document.getElementById('results'); // 获取结果容器
+        const selectedTypeDisplay = document.getElementById('selected-type-display');
+        const keZhiList = document.getElementById('ke-zhi-list');
+        const beiKeZhiList = document.getElementById('bei-ke-zhi-list');
+        const diKangList = document.getElementById('di-kang-list');
+        const currentDateSpan = document.getElementById('current-date');
+        const nightModeToggle = document.getElementById('night-mode-toggle');
+        const body = document.body;
+
+        currentDateSpan.textContent = new Date().toLocaleDateString();
+
+        Object.keys(typeData).forEach(type => {
+            const button = document.createElement('button');
+            button.classList.add('type-button');
+            button.dataset.type = type;
+
+            const icon = document.createElement('img');
+            icon.src = typeIcons[type] || "default.png"; // 使用对应的图标，如果没有则使用默认图标
+            icon.alt = type;
+
+            button.appendChild(icon);
+            typeSelector.appendChild(button);
+        });
+
+        typeSelector.addEventListener('click', (event) => {
+            const clickedButton = event.target.closest('.type-button'); // 查找最近的父级或自身包含 .type-button 类的元素
+            if (clickedButton) {
+                const selectedType = clickedButton.dataset.type;
+
+                updateResults(selectedType);
+
+                document.querySelectorAll('.type-button').forEach(btn => btn.classList.remove('active'));
+                clickedButton.classList.add('active');
+            }
+        });
+
+        function updateResults(type) {
+            const data = typeData[type];
+            if (!data) {
+                console.warn(`没有找到属性 "${type}" 的数据。`);
+                return;
+            }
+
+            selectedTypeDisplay.textContent = `${type}系`;
+
+            keZhiList.innerHTML = '';
+            beiKeZhiList.innerHTML = '';
+            diKangList.innerHTML = '';
+
+            populateList(keZhiList, data.kezhi, 'success');
+            populateList(beiKeZhiList, data.beiKeZhi, 'danger');
+            populateList(diKangList, data.diKang, 'warning');
+        }
+
+        function populateList(listElement, types, tagClass) {
+            if (!types || types.length === 0) {
+                const li = document.createElement('li');
+                li.innerHTML = '<span style="opacity: 1; transform: scale(1);">无</span>'; // 默认显示“无”文字并直接显示
+                li.classList.add('type-tag', 'none');
+                listElement.appendChild(li);
+            } else {
+                types.forEach(type => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span><img src="${typeIcons[type] || type + '.svg'}" alt="${type}" class="type-icon">${type}</span>`;
+                    li.classList.add('type-tag', tagClass);
+                    listElement.appendChild(li);
+                });
+            }
+        }
+
+        // 夜晚模式切换
+        nightModeToggle.addEventListener('click', () => {
+            body.classList.toggle('night-mode');
+            const isNightMode = body.classList.contains('night-mode');
+            nightModeToggle.textContent = isNightMode ? '☀️' : '🌙';
+            localStorage.setItem('nightMode', isNightMode); // 保存用户偏好
+        });
+
+        // 检查用户系统偏好或之前的设置
+        function checkNightModePreference() {
+            const storedPreference = localStorage.getItem('nightMode');
+            const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (storedPreference === 'true' || (storedPreference === null && prefersDarkMode)) {
+                body.classList.add('night-mode');
+                nightModeToggle.textContent = '☀️';
+            } else {
+                body.classList.remove('night-mode');
+                nightModeToggle.textContent = '🌙';
+            }
+        }
+
+        checkNightModePreference(); // 在页面加载时检查
+    </script>
+</body>
+
+</html>

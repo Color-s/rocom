@@ -5,55 +5,123 @@ mode: Rule
 log-level: info
 external-controller: :9090
 proxies:
-  - {name: France, server: 176.32.35.68, port: 4018, type: ss, cipher: aes-256-gcm, password: 4194ce5b1f36f660, udp: true}
-  - {name: Thailand, server: 185.22.153.67, port: 2015, type: ss, cipher: aes-256-gcm, password: b55c7e84afdd52cb, udp: true}
-  - {name: Australia, server: 185.22.154.123, port: 2015, type: ss, cipher: aes-256-gcm, password: ae627920168c1cce, udp: true}
-  - {name: Montreal, server: 46.17.44.47, port: 2015, type: ss, cipher: aes-256-gcm, password: e6b547de43730e23, udp: true}
-  - {name: Taiwan, server: 185.22.153.235, port: 2025, type: ss, cipher: aes-256-gcm, password: e04ae67d4e4cd165, udp: true}
-  - {name: Australia 2, server: 185.22.154.123, port: 2015, type: ss, cipher: aes-256-gcm, password: ae627920168c1cce, udp: true}
-  - {name: Montreal 2, server: 46.17.44.47, port: 2015, type: ss, cipher: aes-256-gcm, password: e6b547de43730e23, udp: true}
-  - {name: Taiwan 2, server: 185.22.153.235, port: 2025, type: ss, cipher: aes-256-gcm, password: e04ae67d4e4cd165, udp: true}
+  - {name: 1, server: n1735605710.afjian.cn, port: 443, type: vmess, uuid: 09738fc0-b178-4bba-98ba-3712e6b8e1ec, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735605710.afjian.cn}, udp: true}
+  - {name: 1 2, server: n1735699731.afjian.cn, port: 443, type: vmess, uuid: a18d5125-2d42-4e4b-98a3-4057de5d112e, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735699731.afjian.cn}, udp: true}
+  - {name: 1 3, server: n1735606083.ryjml.cn, port: 443, type: vmess, uuid: a168919a-3ad9-4c97-be72-163959035fa9, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735606083.ryjml.cn}, udp: true}
+  - {name: 1 4, server: n1735525476.afjian.cn, port: 443, type: vmess, uuid: b78bb21f-1927-41f4-b029-bd076cfa43d9, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735525476.afjian.cn}, udp: true}
+  - {name: 1 5, server: n1735699730.ryjml.cn, port: 443, type: vmess, uuid: 60e18130-f740-4b77-98b7-816662d6a619, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735699730.ryjml.cn}, udp: true}
+  - {name: 1 6, server: n1735783642.afjian.cn, port: 443, type: vmess, uuid: 5704f9dc-a169-478f-87ca-34cbc8c4dab2, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735783642.afjian.cn}, udp: true}
+  - {name: n1746362989.lie5d.cyou, server: n1746362989.lie5d.cyou, port: 443, type: vmess, uuid: a9be31f6-0cdb-451b-b2b4-93db475c495d, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1746362989.lie5d.cyou}, udp: true}
+  - {name: n1746363236.lie5d.cyou, server: n1746363236.lie5d.cyou, port: 443, type: vmess, uuid: bc7d6342-ef91-41b6-9b32-30174f981e02, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1746363236.lie5d.cyou}, udp: true}
+  - {name: n1746363240.kzojg.cyou, server: n1746363240.kzojg.cyou, port: 443, type: vmess, uuid: b58916aa-d909-4ee9-bbba-5239d3ff3a52, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1746363240.kzojg.cyou}, udp: true}
+  - {name: n1746363238.kzojg.cyou, server: n1746363238.kzojg.cyou, port: 443, type: vmess, uuid: a565fedf-c65f-4d5f-a7e2-30a8e1e95aa4, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1746363238.kzojg.cyou}, udp: true}
+  - {name: n1746363237.kzojg.cyou, server: n1746363237.kzojg.cyou, port: 443, type: vmess, uuid: 68c8f84b-cbdc-446e-9b12-e37bc8ee9d69, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1746363237.kzojg.cyou}, udp: true}
+  - {name: n1746363241.4u9ma.icu, server: n1746363241.4u9ma.icu, port: 443, type: vmess, uuid: ed43d06d-4060-45a7-8358-a02809d3597d, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1746363241.4u9ma.icu}, udp: true}
+  - {name: n1746363242.4u9ma.icu, server: n1746363242.4u9ma.icu, port: 443, type: vmess, uuid: 0f92522c-5321-4526-b52e-5b2f2651e43d, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1746363242.4u9ma.icu}, udp: true}
+  - {name: 1 7, server: n1735606082.afjian.cn, port: 443, type: vmess, uuid: a6900047-c2bf-4ed3-bbfa-c085ac0bcac0, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735606082.afjian.cn}, udp: true}
+  - {name: 1 8, server: n1735783641.ryjml.cn, port: 443, type: vmess, uuid: ee232783-43b6-453e-b862-75cee8a343a1, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735783641.ryjml.cn}, udp: true}
+  - {name: 1 9, server: n1735606085.ryjml.cn, port: 443, type: vmess, uuid: 275735fd-0376-4f27-92c0-3e051bcdfcf6, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735606085.ryjml.cn}, udp: true}
+  - {name: 1 10, server: n1735605711.ryjml.cn, port: 443, type: vmess, uuid: 2c1f3cb5-1f56-433b-92c6-ca81b50acf64, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735605711.ryjml.cn}, udp: true}
+  - {name: 1 11, server: n1735606087.ryjml.cn, port: 443, type: vmess, uuid: f047f92c-cb20-4ccb-872f-bc484d848448, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735606087.ryjml.cn}, udp: true}
+  - {name: 1 12, server: n1735699728.ryjml.cn, port: 443, type: vmess, uuid: 2ebf600b-2121-4c70-aa71-3281abc5af45, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735699728.ryjml.cn}, udp: true}
+  - {name: 1 13, server: n1735606086.ryjml.cn, port: 443, type: vmess, uuid: 4793d0f1-88ea-4680-b57e-ee8c8eaf376a, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735606086.ryjml.cn}, udp: true}
+  - {name: 1 14, server: n1735699727.afjian.cn, port: 443, type: vmess, uuid: 58a87d1d-26a6-4396-9c78-7866d149dcd8, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735699727.afjian.cn}, udp: true}
+  - {name: 1 15, server: n1735783647.afjian.cn, port: 443, type: vmess, uuid: 834e12ae-d58e-4dff-9253-a01ab88d868d, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735783647.afjian.cn}, udp: true}
+  - {name: 1 16, server: n1735525478.afjian.cn, port: 443, type: vmess, uuid: 99a809dc-e617-44eb-8245-d505d297aaef, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735525478.afjian.cn}, udp: true}
+  - {name: 1 17, server: n1735605708.ryjml.cn, port: 443, type: vmess, uuid: c3ac3734-43fe-4ff6-a06a-41be4706b56a, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735605708.ryjml.cn}, udp: true}
+  - {name: 1 18, server: n1735699729.ryjml.cn, port: 443, type: vmess, uuid: 8de8a638-7112-4e78-bfe3-a23e94a7e93f, alterId: 0, cipher: auto, tls: true, skip-cert-verify: true, network: ws, ws-path: /, ws-headers: {Host: n1735699729.ryjml.cn}, udp: true}
 proxy-groups:
   - name: 🔰 节点选择
     type: select
     proxies:
       - ♻️ 自动选择
       - 🎯 全球直连
-      - France
-      - Thailand
-      - Australia
-      - Montreal
-      - Taiwan
-      - Australia 2
-      - Montreal 2
-      - Taiwan 2
+      - 1
+      - 1 2
+      - 1 3
+      - 1 4
+      - 1 5
+      - 1 6
+      - n1746362989.lie5d.cyou
+      - n1746363236.lie5d.cyou
+      - n1746363240.kzojg.cyou
+      - n1746363238.kzojg.cyou
+      - n1746363237.kzojg.cyou
+      - n1746363241.4u9ma.icu
+      - n1746363242.4u9ma.icu
+      - 1 7
+      - 1 8
+      - 1 9
+      - 1 10
+      - 1 11
+      - 1 12
+      - 1 13
+      - 1 14
+      - 1 15
+      - 1 16
+      - 1 17
+      - 1 18
   - name: ♻️ 自动选择
     type: url-test
     url: http://www.gstatic.com/generate_204
     interval: 300
     proxies:
-      - France
-      - Thailand
-      - Australia
-      - Montreal
-      - Taiwan
-      - Australia 2
-      - Montreal 2
-      - Taiwan 2
+      - 1
+      - 1 2
+      - 1 3
+      - 1 4
+      - 1 5
+      - 1 6
+      - n1746362989.lie5d.cyou
+      - n1746363236.lie5d.cyou
+      - n1746363240.kzojg.cyou
+      - n1746363238.kzojg.cyou
+      - n1746363237.kzojg.cyou
+      - n1746363241.4u9ma.icu
+      - n1746363242.4u9ma.icu
+      - 1 7
+      - 1 8
+      - 1 9
+      - 1 10
+      - 1 11
+      - 1 12
+      - 1 13
+      - 1 14
+      - 1 15
+      - 1 16
+      - 1 17
+      - 1 18
   - name: 🎥 NETFLIX
     type: select
     proxies:
       - 🔰 节点选择
       - ♻️ 自动选择
       - 🎯 全球直连
-      - France
-      - Thailand
-      - Australia
-      - Montreal
-      - Taiwan
-      - Australia 2
-      - Montreal 2
-      - Taiwan 2
+      - 1
+      - 1 2
+      - 1 3
+      - 1 4
+      - 1 5
+      - 1 6
+      - n1746362989.lie5d.cyou
+      - n1746363236.lie5d.cyou
+      - n1746363240.kzojg.cyou
+      - n1746363238.kzojg.cyou
+      - n1746363237.kzojg.cyou
+      - n1746363241.4u9ma.icu
+      - n1746363242.4u9ma.icu
+      - 1 7
+      - 1 8
+      - 1 9
+      - 1 10
+      - 1 11
+      - 1 12
+      - 1 13
+      - 1 14
+      - 1 15
+      - 1 16
+      - 1 17
+      - 1 18
   - name: ⛔️ 广告拦截
     type: select
     proxies:
@@ -72,14 +140,31 @@ proxy-groups:
       - 🔰 节点选择
       - ♻️ 自动选择
       - 🎯 全球直连
-      - France
-      - Thailand
-      - Australia
-      - Montreal
-      - Taiwan
-      - Australia 2
-      - Montreal 2
-      - Taiwan 2
+      - 1
+      - 1 2
+      - 1 3
+      - 1 4
+      - 1 5
+      - 1 6
+      - n1746362989.lie5d.cyou
+      - n1746363236.lie5d.cyou
+      - n1746363240.kzojg.cyou
+      - n1746363238.kzojg.cyou
+      - n1746363237.kzojg.cyou
+      - n1746363241.4u9ma.icu
+      - n1746363242.4u9ma.icu
+      - 1 7
+      - 1 8
+      - 1 9
+      - 1 10
+      - 1 11
+      - 1 12
+      - 1 13
+      - 1 14
+      - 1 15
+      - 1 16
+      - 1 17
+      - 1 18
   - name: 🌏 国内媒体
     type: select
     proxies:
@@ -90,41 +175,92 @@ proxy-groups:
     proxies:
       - 🎯 全球直连
       - 🔰 节点选择
-      - France
-      - Thailand
-      - Australia
-      - Montreal
-      - Taiwan
-      - Australia 2
-      - Montreal 2
-      - Taiwan 2
+      - 1
+      - 1 2
+      - 1 3
+      - 1 4
+      - 1 5
+      - 1 6
+      - n1746362989.lie5d.cyou
+      - n1746363236.lie5d.cyou
+      - n1746363240.kzojg.cyou
+      - n1746363238.kzojg.cyou
+      - n1746363237.kzojg.cyou
+      - n1746363241.4u9ma.icu
+      - n1746363242.4u9ma.icu
+      - 1 7
+      - 1 8
+      - 1 9
+      - 1 10
+      - 1 11
+      - 1 12
+      - 1 13
+      - 1 14
+      - 1 15
+      - 1 16
+      - 1 17
+      - 1 18
   - name: 📲 电报信息
     type: select
     proxies:
       - 🔰 节点选择
       - 🎯 全球直连
-      - France
-      - Thailand
-      - Australia
-      - Montreal
-      - Taiwan
-      - Australia 2
-      - Montreal 2
-      - Taiwan 2
+      - 1
+      - 1 2
+      - 1 3
+      - 1 4
+      - 1 5
+      - 1 6
+      - n1746362989.lie5d.cyou
+      - n1746363236.lie5d.cyou
+      - n1746363240.kzojg.cyou
+      - n1746363238.kzojg.cyou
+      - n1746363237.kzojg.cyou
+      - n1746363241.4u9ma.icu
+      - n1746363242.4u9ma.icu
+      - 1 7
+      - 1 8
+      - 1 9
+      - 1 10
+      - 1 11
+      - 1 12
+      - 1 13
+      - 1 14
+      - 1 15
+      - 1 16
+      - 1 17
+      - 1 18
   - name: 🍎 苹果服务
     type: select
     proxies:
       - 🔰 节点选择
       - 🎯 全球直连
       - ♻️ 自动选择
-      - France
-      - Thailand
-      - Australia
-      - Montreal
-      - Taiwan
-      - Australia 2
-      - Montreal 2
-      - Taiwan 2
+      - 1
+      - 1 2
+      - 1 3
+      - 1 4
+      - 1 5
+      - 1 6
+      - n1746362989.lie5d.cyou
+      - n1746363236.lie5d.cyou
+      - n1746363240.kzojg.cyou
+      - n1746363238.kzojg.cyou
+      - n1746363237.kzojg.cyou
+      - n1746363241.4u9ma.icu
+      - n1746363242.4u9ma.icu
+      - 1 7
+      - 1 8
+      - 1 9
+      - 1 10
+      - 1 11
+      - 1 12
+      - 1 13
+      - 1 14
+      - 1 15
+      - 1 16
+      - 1 17
+      - 1 18
   - name: 🎯 全球直连
     type: select
     proxies:
@@ -140,14 +276,31 @@ proxy-groups:
       - 🔰 节点选择
       - 🎯 全球直连
       - ♻️ 自动选择
-      - France
-      - Thailand
-      - Australia
-      - Montreal
-      - Taiwan
-      - Australia 2
-      - Montreal 2
-      - Taiwan 2
+      - 1
+      - 1 2
+      - 1 3
+      - 1 4
+      - 1 5
+      - 1 6
+      - n1746362989.lie5d.cyou
+      - n1746363236.lie5d.cyou
+      - n1746363240.kzojg.cyou
+      - n1746363238.kzojg.cyou
+      - n1746363237.kzojg.cyou
+      - n1746363241.4u9ma.icu
+      - n1746363242.4u9ma.icu
+      - 1 7
+      - 1 8
+      - 1 9
+      - 1 10
+      - 1 11
+      - 1 12
+      - 1 13
+      - 1 14
+      - 1 15
+      - 1 16
+      - 1 17
+      - 1 18
 rules:
  - DOMAIN-SUFFIX,local,🎯 全球直连
  - IP-CIDR,192.168.0.0/16,🎯 全球直连,no-resolve
